@@ -24,37 +24,39 @@ namespace AgendaApi.Services.Implementations
             Contact contact = new Contact()
             {
                 Email = dto.Email,
-                Image = dto.Imagen,
-                Number = dto.Telefono,
-                Company = dto.Empresa,
-                Address = dto.Direccion,
-                LastName = dto.Apellido,
-                Name = dto.Nombre,
+                Image = dto.Image,
+                Number = dto.Number,
+                Company = dto.Company,
+                Address = dto.Address,
+                LastName = dto.LastName,
+                Name = dto.Name,
                 UserId = loggedUserId,
             };
             _context.Contacts.Add(contact);
             _context.SaveChanges();
         }
 
-        public void Update(CreateAndUpdateContact dto, int contactId)
+        public async void Update(CreateAndUpdateContact dto, int contactId)
         {
             Contact? contact = _context.Contacts.SingleOrDefault(contact => contact.Id == contactId);
             if (contact is not null)
             {
+                contact.Id = contactId;
                 contact.Email = dto.Email;
-                contact.Image = dto.Imagen;
-                contact.Number = dto.Telefono;
-                contact.Company = dto.Empresa;
-                contact.Address = dto.Direccion;
-                contact.LastName = dto.Apellido;
-                contact.Name = dto.Nombre;
-                _context.SaveChanges();
+                contact.Image = dto.Image;
+                contact.Number = dto.Number;
+                contact.Company = dto.Company;
+                contact.Address = dto.Address;
+                contact.LastName = dto.LastName;
+                contact.Name = dto.Name;
+                await _context.SaveChangesAsync();
             }
 
         }
         public void Delete(int id)
         {
-            _context.Contacts.Remove(_context.Contacts.Single(c => c.Id == id));
+            Contact contact = _context.Contacts.Single(c => c.Id == id);
+            _context.Contacts.Remove(contact);
             _context.SaveChanges();
         }
     }

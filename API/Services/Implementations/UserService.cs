@@ -21,7 +21,7 @@ namespace AgendaApi.Services.Implementations
 
         public User? ValidateUser(AuthenticationRequestBody authRequestBody)
         {
-            return _context.Users.FirstOrDefault(p => p.UserName == authRequestBody.NombreDeUsuario && p.Password == authRequestBody.Contrasenia);
+            return _context.Users.FirstOrDefault(p => p.UserName == authRequestBody.username && p.Password == authRequestBody.password);
         }
 
         public List<User> GetAll()
@@ -33,10 +33,10 @@ namespace AgendaApi.Services.Implementations
         {
             User newUser = new User()
             {
-                FirstName = dto.Nombre,
-                LastName = dto.Apellido,
-                Password = dto.Contrasenia,
-                UserName = dto.NombreDeUsuario,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Password = dto.Password,
+                UserName = dto.Username,
                 State = State.Active,
                 Rol = Rol.User,
                 Contacts = new List<Contact>()
@@ -55,10 +55,10 @@ namespace AgendaApi.Services.Implementations
         public void Update(CreateAndUpdateUserDto dto, int userId)
         {
             User userToUpdate = _context.Users.First(u => u.Id == userId);
-            userToUpdate.FirstName = dto.Nombre;
+            userToUpdate.FirstName = dto.FirstName;
             //userToUpdate.UserName = dto.NombreDeUsuario; //Esto no deberíamos actualizarlo, lo mejor es crear un dto para actualización que no contenga este campo.
-            userToUpdate.LastName = dto.Apellido;
-            userToUpdate.Password = dto.Contrasenia;
+            userToUpdate.LastName = dto.LastName;
+            userToUpdate.Password = dto.Password;
             _context.SaveChanges();
         }
 

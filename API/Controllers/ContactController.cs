@@ -55,17 +55,10 @@ namespace AgendaApi.Controllers
         }
 
         [HttpDelete]
+        [Route("{Id}")]
         public IActionResult Delete(int id)
         {
-            var role = HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("role"));
-            if (role.Value == "Admin")
-            {
-                _userService.Delete(id);
-            }
-            else
-            {
-                _userService.Archive(id);
-            }
+             _contactService.Delete(id);
             return NoContent();
         }
 
